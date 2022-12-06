@@ -20,6 +20,13 @@ async function run() {
     try {
         const collection = client.db("hardware-collection").collection("hardware");
 
+        // TODO: post
+        app.post('/item',async(req,res)=>{
+            const item = req.body;
+            const result = await collection.insertOne(item);
+            res.send(result)
+        });
+
         // TODO: get
         app.get('/items',async(req,res)=>{
             const query = {};
