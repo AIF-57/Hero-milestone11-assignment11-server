@@ -13,7 +13,7 @@ app.get('/',(req,res)=>{
 });
 
 
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.vaoc00y.mongodb.net/?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true, serverApi: ServerApiVersion.v1 });
 async function run() {
@@ -26,6 +26,16 @@ async function run() {
             const cursor = collection.find(query);
             const items = await cursor.toArray();
             res.send(items);
+        });
+
+
+        // TODO: get singleData
+        app.get('/item/:id',async(req,res)=>{
+            const id = req.params.id;
+            const options = {}
+            const query = {_id: ObjectId(id)};
+            const result = await collection.findOne(query,options);
+            res.send(result);
         });
 
     } finally {
