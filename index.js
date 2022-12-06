@@ -28,13 +28,50 @@ async function run() {
             res.send(items);
         });
 
-
         // TODO: get singleData
         app.get('/item/:id',async(req,res)=>{
             const id = req.params.id;
             const options = {}
             const query = {_id: ObjectId(id)};
             const result = await collection.findOne(query,options);
+            res.send(result);
+        });
+
+        //TODO: put
+        app.put('/update/:id',async(req,res)=>{
+            const id = req.params.id;
+            const addQuantities = req.body;
+            const filter = {_id: ObjectId(id)};
+            const options  = {upsert:true};
+            const updateDoc = {
+                $set: {
+                    quantity : addQuantities.quantity
+                },
+              };
+            const result = await collection.updateOne(filter,updateDoc,options);
+            res.send(result);
+        });
+
+        //TODO: put
+        app.put('/update/:id',async(req,res)=>{
+            const id = req.params.id;
+            const addQuantities = req.body;
+            const filter = {_id: ObjectId(id)};
+            const options  = {upsert:true};
+            const updateDoc = {
+                $set: {
+                    quantity : addQuantities.quantity
+                },
+              };
+            const result = await collection.updateOne(filter,updateDoc,options);
+            res.send(result);
+        });
+
+        //TODO: delete
+        app.delete('/delete/:id',async(req,res)=>{
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await collection.deleteOne(query);
             res.send(result);
         });
 
